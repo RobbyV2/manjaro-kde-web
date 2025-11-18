@@ -3,9 +3,12 @@ import { Icon } from '@/components/Icon';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { StartMenu } from './StartMenu';
+import { SystemTrayPopup } from './SystemTrayPopup';
+import { CalendarWidget } from './CalendarWidget';
 
 export const Taskbar = () => {
-  const { apps, openApp, minimizeApp, activeAppId } = useDesktopStore();
+  const { apps, openApp, minimizeApp, activeAppId, activeMenu, setActiveMenu } = useDesktopStore();
   const [time, setTime] = useState(dayjs());
 
   useEffect(() => {
@@ -23,11 +26,35 @@ export const Taskbar = () => {
     } else {
       openApp(id);
     }
+    setActiveMenu(null);
+  };
+
+  const toggleMenu = (menu: typeof activeMenu) => {
+    if (activeMenu === menu) {
+        setActiveMenu(null);
+    } else {
+        setActiveMenu(menu);
+    }
+  };
+
+  // Helper to get tray view from activeMenu string
+  const getTrayView = () => {
+      if (activeMenu?.startsWith('tray-')) {
+          return activeMenu.replace('tray-', '') as any;
+      }
+      return '';
   };
 
   return (
-    <div className="fixed bottom-0 left-0 w-full h-12 bg-[#2b2e33] z-50 flex items-center px-2 select-none shadow-[0_0_0.5rem_#171717] text-white">
-      <button className="p-2 hover:bg-white/10 rounded transition-colors mr-2 flex items-center justify-center">
+    <div className="fixed bottom-0 left-0 w-full h-12 bg-[#2b2e33] z-[5000] flex items-center px-2 select-none shadow-[0_0_0.5rem_#171717] text-white font-sans">
+      {/* Start Button */}
+      <button 
+        onClick={() => toggleMenu('start')}
+        className={clsx(
+            "p-2 rounded transition-colors mr-2 flex items-center justify-center",
+            activeMenu === 'start' ? "bg-white/10" : "hover:bg-white/10"
+        )}
+      >
          <Icon name="plasma" size={32} />
       </button>
 
@@ -47,7 +74,7 @@ export const Taskbar = () => {
            </button>
         ))}
         
-        {/* Separator if needed */}
+        {/* Separator */}
         {runningUnpinnedApps.length > 0 && <div className="w-[1px] h-6 bg-gray-600 mx-2"></div>}
 
         {/* Running Unpinned Apps */}
@@ -66,22 +93,48 @@ export const Taskbar = () => {
         ))}
       </div>
 
-      <div className="flex items-center gap-2 h-full">
+      {/* Tray Area */}
+      <div className="flex items-center gap-2 h-full relative">
          {/* Tray Icons */}
-         <div className="flex items-center px-2 gap-2">
-            <Icon name="paste" size={18} className="opacity-80 hover:opacity-100 cursor-pointer" />
-            <Icon name="keyboard" size={18} className="opacity-80 hover:opacity-100 cursor-pointer" />
-            <Icon name="audio-volume-muted" size={18} className="opacity-80 hover:opacity-100 cursor-pointer" />
-            <Icon name="bluetooth" size={18} className="opacity-80 hover:opacity-100 cursor-pointer" />
-            <Icon name="wifi" size={18} className="opacity-80 hover:opacity-100 cursor-pointer" />
+         <div className="flex items-center px-2 gap-1 h-full">
+            <button onClick={() => toggleMenu('tray-paste')} className={clsx("p-1.5 rounded hover:bg-white/10", activeMenu === 'tray-paste' && "bg-white/10")}>
+                <Icon name="paste" size={18} className="opacity-80 hover:opacity-100" />
+            </button>
+            <button className="p-1.5 rounded hover:bg-white/10">
+                 {/* Mock toggle for keyboard icon */}
+                <Icon name="keyboard" size={18} className="opacity-80 hover:opacity-100" />
+            </button>
+            <button onClick={() => toggleMenu('tray-volume')} className={clsx("p-1.5 rounded hover:bg-white/10", activeMenu === 'tray-volume' && "bg-white/10")}>
+                <Icon name="audio-volume-muted" size={18} className="opacity-80 hover:opacity-100" />
+            </button>
+            <button onClick={() => toggleMenu('tray-bluetooth')} className={clsx("p-1.5 rounded hover:bg-white/10", activeMenu === 'tray-bluetooth' && "bg-white/10")}>
+                <Icon name="bluetooth" size={18} className="opacity-80 hover:opacity-100" />
+            </button>
+            <button onClick={() => toggleMenu('tray-wifi')} className={clsx("p-1.5 rounded hover:bg-white/10", activeMenu === 'tray-wifi' && "bg-white/10")}>
+                <Icon name="wifi" size={18} className="opacity-80 hover:opacity-100" />
+            </button>
+            <button onClick={() => toggleMenu('tray-arrow')} className={clsx("p-1.5 rounded hover:bg-white/10 transition-transform", activeMenu === 'tray-arrow' && "bg-white/10 rotate-180")}>
+                <Icon name="triangle" size={18} className="opacity-80 hover:opacity-100 -rotate-90" />
+            </button>
          </div>
 
          {/* Clock */}
-         <div className="flex flex-col items-center justify-center px-2 hover:bg-white/10 h-full cursor-pointer transition-colors text-xs leading-tight">
+         <div 
+            onClick={() => toggleMenu('calendar')}
+            className={clsx(
+                "flex flex-col items-center justify-center px-2 h-full cursor-pointer transition-colors text-xs leading-tight min-w-[4rem]",
+                activeMenu === 'calendar' ? "bg-white/10" : "hover:bg-white/10"
+            )}
+         >
             <span className="text-lg font-medium">{time.format('HH:mm')}</span>
             <span className="opacity-80">{time.format('DD MMM')}</span>
          </div>
       </div>
+
+      {/* Menus */}
+      <StartMenu isOpen={activeMenu === 'start'} onClose={() => setActiveMenu(null)} />
+      <SystemTrayPopup view={getTrayView()} onClose={() => setActiveMenu(null)} />
+      <CalendarWidget isOpen={activeMenu === 'calendar'} onClose={() => setActiveMenu(null)} />
     </div>
   );
 };

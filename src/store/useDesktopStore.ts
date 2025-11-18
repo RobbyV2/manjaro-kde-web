@@ -36,6 +36,10 @@ interface DesktopState {
   updateWindowPosition: (id: string, position: { x: number; y: number }) => void;
   updateWindowSize: (id: string, size: { width: number; height: number }) => void;
   setLocked: (locked: boolean) => void;
+  
+  // UI State
+  activeMenu: 'start' | 'calendar' | 'tray-paste' | 'tray-volume' | 'tray-bluetooth' | 'tray-wifi' | 'tray-arrow' | null;
+  setActiveMenu: (menu: 'start' | 'calendar' | 'tray-paste' | 'tray-volume' | 'tray-bluetooth' | 'tray-wifi' | 'tray-arrow' | null) => void;
 }
 
 const initialApps: AppInstance[] = [
@@ -234,4 +238,7 @@ export const useDesktopStore = create<DesktopState>((set) => ({
   })),
 
   setLocked: (locked) => set({ isLocked: locked }),
+
+  activeMenu: null,
+  setActiveMenu: (menu) => set({ activeMenu: menu }),
 }));
