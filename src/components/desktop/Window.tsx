@@ -6,9 +6,10 @@ import { useRef } from 'react';
 
 interface WindowProps {
   app: AppInstance;
+  children?: React.ReactNode;
 }
 
-export const Window = ({ app }: WindowProps) => {
+export const Window = ({ app, children }: WindowProps) => {
   const { 
     closeApp, 
     minimizeApp, 
@@ -84,12 +85,7 @@ export const Window = ({ app }: WindowProps) => {
 
        {/* Content */}
        <div className="flex-1 bg-[#1e1e1e] relative overflow-hidden cursor-default text-white p-0">
-          {/* Placeholder Content */}
-          <div className="w-full h-full flex flex-col items-center justify-center text-gray-500">
-             <Icon name={app.icon} size={96} className="opacity-20 mb-4" />
-             <h1 className="text-2xl font-light mb-2">{app.name}</h1>
-             <p>Application content goes here.</p>
-          </div>
+          {children}
        </div>
     </Rnd>
   );
