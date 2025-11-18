@@ -9,9 +9,16 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fontsource/noto-sans": "^5.2.10",
+    "@fontsource/source-code-pro": "^5.2.7",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.19",
     "next": "16.0.3",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "sass": "^1.94.1",
+    "tailwind-merge": "^3.4.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
