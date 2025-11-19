@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.scss";
+import "./globals.css";
 import "@fontsource/noto-sans";
 import "@fontsource/source-code-pro";
 

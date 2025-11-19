@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Noto Sans", serif;
+  --font-mono: "Source Code Pro", monospace;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.trans {
+  transition: all 0.15s linear;
+}
+
+.code-font {
+  font-family: var(--font-mono);
+}
+
+input.common {
+  margin-left: 0.5rem;
+  background: #212121;
+  border-radius: 0.15rem;
+  border: 1px solid gray;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  color: white;
+  outline: none;
+}
+
+input.common:focus, input.common:hover {
+  border-color: #44bbff;
+}
+
+iframe {
+  border: none;
+  outline: none;
+}
