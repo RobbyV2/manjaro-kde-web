@@ -2,6 +2,7 @@ import { useDesktopStore } from '@/store/useDesktopStore';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { getPublicUrl } from '@/utils/publicUrl';
 
 export const Gedit = () => {
   const { apps } = useDesktopStore();
@@ -11,7 +12,7 @@ export const Gedit = () => {
   useEffect(() => {
     const filepath = app?.params?.filepath;
     if (filepath) {
-      fetch(`/dolphin-files/${filepath}`)
+      fetch(getPublicUrl(`/dolphin-files/${filepath}`))
         .then(res => res.text())
         .then(setText)
         .catch(err => console.error("Failed to load file:", err));

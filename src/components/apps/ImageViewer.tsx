@@ -2,6 +2,7 @@ import { useDesktopStore } from '@/store/useDesktopStore';
 import { findMimeFiles } from '@/utils/utils';
 import { useEffect, useState } from 'react';
 import { Icon } from '@/components/Icon';
+import { getPublicUrl } from '@/utils/publicUrl';
 
 export const ImageViewer = () => {
   const { apps } = useDesktopStore();
@@ -24,7 +25,7 @@ export const ImageViewer = () => {
   return (
     <div className="w-full h-full bg-black flex items-center justify-center overflow-hidden relative">
        {currentImage ? (
-           <img src={`/dolphin-files/${currentImage}`} alt={currentImage} className="max-w-full max-h-full object-contain" />
+           <img src={getPublicUrl(`/dolphin-files/${currentImage}`)} alt={currentImage} className="max-w-full max-h-full object-contain" />
        ) : (
            <div className="text-gray-500">No image selected</div>
        )}

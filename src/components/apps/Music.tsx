@@ -5,6 +5,7 @@ import { Icon } from '@/components/Icon';
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { getPublicUrl } from '@/utils/publicUrl';
 
 dayjs.extend(duration);
 
@@ -35,7 +36,7 @@ export const Music = () => {
   // Auto-play when track changes
   useEffect(() => {
       if (activeIdx >= 0 && audioRef.current) {
-          audioRef.current.src = `/dolphin-files/${audioFiles[activeIdx]}`;
+          audioRef.current.src = getPublicUrl(`/dolphin-files/${audioFiles[activeIdx]}`);
           audioRef.current.load();
           audioRef.current.play().catch(e => console.log("Autoplay blocked", e));
           setPaused(false);

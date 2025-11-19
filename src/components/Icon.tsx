@@ -1,4 +1,5 @@
 import React from 'react';
+import { getPublicUrl } from '@/utils/publicUrl';
 
 interface IconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   name: string;
@@ -8,7 +9,7 @@ interface IconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 export const Icon: React.FC<IconProps> = ({ name, size = 24, className, style, ...props }) => {
   return (
     <img
-      src={`/icons/${name}.svg`}
+      src={getPublicUrl(`/icons/${name}.svg`)}
       alt={name}
       width={size}
       height={size}
