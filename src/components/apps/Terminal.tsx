@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
+import { dolphinFiles, typeFile } from '@/utils/filesystem';
+import { useDesktopStore } from '@/store/useDesktopStore';
 
 export const Terminal = () => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [output, setOutput] = useState<{ type: 'cmd' | 'out', content: string, dir?: string }[]>([]);
-  const [dir, setDir] = useState<string[]>([]);
+  const [dir, setDir] = useState<string[]>([]); // Empty = Home
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const { openApp, setAppParams } = useDesktopStore();
 
   const dirStr = dir.length ? dir.join('/') : '~';
 
@@ -14,6 +17,19 @@ export const Terminal = () => {
     if (e.key === 'Enter') {
       processCmd();
     }
+  };
+
+  const getFilesAtCurrentPath = (): typeFile[] => {
+      let current = dolphinFiles;
+      for (const p of dir) {
+          const found = current.find(f => f.name === p && f.isDir);
+          if (found && found.sub) {
+              current = found.sub;
+          } else {
+              return [];
+          }
+      }
+      return current;
   };
 
   const processCmd = () => {
@@ -29,13 +45,56 @@ export const Terminal = () => {
 
     switch (parts[0]) {
       case 'help':
-        newOutput.push({ type: 'out', content: 'ls - list files\ncd <dir> - change directory\nclear - clear screen\npwd - print working directory' });
+        newOutput.push({ type: 'out', content: 'ls - list files\ncd <dir> - change directory\nclear - clear screen\npwd - print working directory\nxdg-open <file> - open file' });
         break;
       case 'ls':
-        newOutput.push({ type: 'out', content: 'Fake file system not fully implemented in React version yet.' });
+        const files = getFilesAtCurrentPath();
+        newOutput.push({ type: 'out', content: files.map(f => f.isDir ? f.name + '/' : f.name).join('  ') });
         break;
       case 'pwd':
         newOutput.push({ type: 'out', content: `/home/hitu/${dirStr === '~' ? '' : dirStr}` });
+        break;
+      case 'cd':
+        if (!parts[1] || parts[1] === '~') {
+            setDir([]);
+        } else if (parts[1] === '..') {
+            setDir(dir.slice(0, -1));
+        } else {
+            const target = parts[1];
+            const currentFiles = getFilesAtCurrentPath();
+            const found = currentFiles.find(f => f.name === target && f.isDir);
+            if (found) {
+                setDir([...dir, target]);
+            } else {
+                newOutput.push({ type: 'out', content: `cd: ${target}: No such directory` });
+            }
+        }
+        break;
+      case 'xdg-open':
+        if (!parts[1]) {
+            newOutput.push({ type: 'out', content: 'xdg-open: missing file operand' });
+        } else {
+            const target = parts[1];
+            const currentFiles = getFilesAtCurrentPath();
+            const file = currentFiles.find(f => f.name === target && !f.isDir);
+            if (file) {
+                const filepath = [...dir, file.name].join('/');
+                if (file.mime.startsWith('image/')) {
+                    setAppParams('image-viewer', { filepath });
+                    openApp('image-viewer');
+                } else if (file.mime.startsWith('audio/')) {
+                    setAppParams('music', { filepath });
+                    openApp('music');
+                } else if (file.mime === 'text/markdown') {
+                    setAppParams('gedit', { filepath });
+                    openApp('gedit');
+                } else {
+                     newOutput.push({ type: 'out', content: `xdg-open: no application for ${file.mime}` });
+                }
+            } else {
+                newOutput.push({ type: 'out', content: `xdg-open: ${target}: No such file` });
+            }
+        }
         break;
       case 'clear':
         setOutput([]);

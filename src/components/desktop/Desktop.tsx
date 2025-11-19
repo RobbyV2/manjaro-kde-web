@@ -6,6 +6,9 @@ import { VSCode } from '@/components/apps/VSCode';
 import { Chrome } from '@/components/apps/Chrome';
 import { Settings } from '@/components/apps/Settings';
 import { Dolphin } from '@/components/apps/Dolphin';
+import { Gedit } from '@/components/apps/Gedit';
+import { ImageViewer } from '@/components/apps/ImageViewer';
+import { Music } from '@/components/apps/Music';
 
 export const Desktop = () => {
   const apps = useDesktopStore(state => state.apps);
@@ -18,6 +21,9 @@ export const Desktop = () => {
         case 'Chrome': return Chrome;
         case 'Settings': return Settings;
         case 'Dolphin': return Dolphin;
+        case 'Gedit': return Gedit;
+        case 'ImageViewer': return ImageViewer;
+        case 'Music': return Music;
         default: return null;
     }
   };

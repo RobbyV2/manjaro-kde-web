@@ -2,26 +2,46 @@ import { useState } from 'react';
 import { Icon } from '@/components/Icon';
 import clsx from 'clsx';
 import { useDesktopStore } from '@/store/useDesktopStore';
+import { dolphinFiles, typeFile } from '@/utils/filesystem';
 
 export const Dolphin = () => {
   const [path, setPath] = useState<string[]>([]); // Empty = Home
-  const { openApp } = useDesktopStore();
+  const { openApp, setAppParams } = useDesktopStore();
 
-  // Mock file system for now
-  const files = [
-    { name: 'Documents', type: 'folder', icon: 'folder-documents' },
-    { name: 'Downloads', type: 'folder', icon: 'folder-download' },
-    { name: 'Music', type: 'folder', icon: 'folder-music' },
-    { name: 'Pictures', type: 'folder', icon: 'folder-image' },
-    { name: 'Videos', type: 'folder', icon: 'folder-video' },
-    { name: 'project.md', type: 'file', icon: 'mime-text-markdown' },
-  ];
+  // Helper to get files at current path
+  const getFilesAtCurrentPath = (): typeFile[] => {
+      let current = dolphinFiles;
+      for (const p of path) {
+          const found = current.find(f => f.name === p && f.isDir);
+          if (found && found.sub) {
+              current = found.sub;
+          } else {
+              return [];
+          }
+      }
+      return current;
+  };
 
-  const handleDoubleClick = (file: any) => {
-      if (file.type === 'folder') {
+  const files = getFilesAtCurrentPath();
+
+  const handleDoubleClick = (file: typeFile) => {
+      if (file.isDir) {
           setPath([...path, file.name]);
       } else {
-          // Open file logic placeholder
+          // Open file logic
+          const filepath = [...path, file.name].join('/');
+          const mime = file.mime;
+          
+          if (mime.startsWith('image/')) {
+              setAppParams('image-viewer', { filepath });
+              openApp('image-viewer');
+          } else if (mime.startsWith('audio/')) {
+              setAppParams('music', { filepath });
+              openApp('music');
+          } else if (mime === 'text/markdown') {
+              setAppParams('gedit', { filepath });
+              openApp('gedit');
+          }
       }
   };
 
@@ -66,14 +86,27 @@ export const Dolphin = () => {
                    onDoubleClick={() => handleDoubleClick(file)}
                    className="w-24 h-24 flex flex-col items-center justify-center rounded hover:bg-white/10 cursor-pointer border border-transparent hover:border-gray-600"
                  >
-                    <Icon name={file.icon} size={48} className="mb-2" />
-                    <span className="text-xs text-center px-1 truncate w-full">{file.name}</span>
+                    <Icon name={getIconForFile(file)} size={48} className="mb-2" />
+                    <span className="text-xs text-center px-1 truncate w-full text-white">{file.name}</span>
                  </div>
              ))}
           </div>
        </div>
     </div>
   );
+};
+
+const getIconForFile = (file: typeFile) => {
+    if (file.isDir) {
+        // Simple mapping for known folders
+        if (['images', 'musics'].includes(file.name)) return `folder-${file.name === 'images' ? 'image' : 'music'}`;
+        return 'folder-home'; // Default folder icon
+    }
+    const mime = file.mime;
+    if (mime.startsWith('image/')) return 'mime-image';
+    if (mime.startsWith('audio/')) return 'mime-audio-mpeg';
+    if (mime === 'text/markdown') return 'mime-text-markdown';
+    return 'file'; // Default file icon (needs svg)
 };
 
 const SidebarItem = ({ icon, label, active, onClick }: any) => (

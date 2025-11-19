@@ -20,7 +20,9 @@ export interface WindowState {
   size: { width: number; height: number };
 }
 
-export interface AppInstance extends AppConfig, WindowState {}
+export interface AppInstance extends AppConfig, WindowState {
+  params?: any;
+}
 
 interface DesktopState {
   apps: AppInstance[];
@@ -35,6 +37,7 @@ interface DesktopState {
   setZIndex: (id: string) => void;
   updateWindowPosition: (id: string, position: { x: number; y: number }) => void;
   updateWindowSize: (id: string, size: { width: number; height: number }) => void;
+  setAppParams: (id: string, params: any) => void;
   setLocked: (locked: boolean) => void;
   
   // UI State
@@ -235,6 +238,10 @@ export const useDesktopStore = create<DesktopState>((set) => ({
 
   updateWindowSize: (id, size) => set((state) => ({
     apps: state.apps.map(app => app.id === id ? { ...app, size } : app)
+  })),
+
+  setAppParams: (id, params) => set((state) => ({
+    apps: state.apps.map(app => app.id === id ? { ...app, params } : app)
   })),
 
   setLocked: (locked) => set({ isLocked: locked }),
