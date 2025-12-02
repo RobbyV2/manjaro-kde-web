@@ -8,8 +8,6 @@ import { VSCode } from './VSCode';
 import { Music } from './Music';
 import { ImageViewer } from './ImageViewer';
 
-import { GeditPlaceholder } from './GeditPlaceholder'; // Assuming this or internal
-
 // Placeholder for Gedit if not implemented yet
 const GeditPlaceholder = ({ filepath }: { filepath?: string }) => (
     <div className="w-full h-full bg-[#262626] text-white p-4 font-mono">

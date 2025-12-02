@@ -7,6 +7,7 @@ interface AppState {
   setLocked: (locked: boolean) => void;
   setPowerState: (state: '' | 'shutdown' | 'reboot') => void;
   apps: typeApp[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openApp: (name: string, params?: any) => void;
   closeApp: (name: string) => void;
   minimizeApp: (name: string) => void;
