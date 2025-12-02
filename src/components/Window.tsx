@@ -6,6 +6,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import { Icon } from './Icon';
 
+import { AppRenderer } from '@/apps';
+
 interface WindowProps {
   app: typeApp;
 }
@@ -74,7 +76,7 @@ export const Window = ({ app }: WindowProps) => {
         >
           <div className="flex items-center gap-2">
             <Icon name={app.icon} size={18} />
-            <span className="text-gray-400 text-sm ml-2">{app.name}</span>
+            <span className="text-gray-400 text-sm ml-2 capitalize">{app.name}</span>
           </div>
           <div className="flex items-center gap-1 z-10">
             <div
@@ -97,11 +99,8 @@ export const Window = ({ app }: WindowProps) => {
             </div>
           </div>
         </div>
-        <div className="flex-1 overflow-auto p-4 text-white">
-           {/* Placeholder content until we have actual apps */}
-           <div className="text-center mt-10 text-gray-500">
-             App Content for {app.name}
-           </div>
+        <div className="flex-1 overflow-auto text-white relative">
+           <AppRenderer appName={app.app} params={app.params} />
         </div>
       </div>
     </Draggable>
