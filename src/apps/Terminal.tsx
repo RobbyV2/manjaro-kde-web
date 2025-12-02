@@ -143,6 +143,12 @@ export const Terminal = () => {
       case "pwd":
         setCmds(prev => [...prev, ["out", dirStr]]);
         break;
+      case "date":
+        setCmds(prev => [...prev, ["out", new Date().toString()]]);
+        break;
+      case "whoami":
+        setCmds(prev => [...prev, ["out", "user"]]);
+        break;
       case "xdg-open":
         if (args.length !== 1) {
              setCmds(prev => [...prev, ["out", 'command "xdg-open" only take one argument']]);
