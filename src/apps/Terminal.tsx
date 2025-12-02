@@ -34,7 +34,6 @@ export const Terminal = () => {
   const dirStr = dir.length ? dir.join("/") : "~";
 
   const getFilesNow = () => {
-    let idx = 0;
     let parent = dolphinFiles as typeFile[];
     // Traverse
     // Note: filesystem.ts export might need check.
@@ -57,7 +56,6 @@ export const Terminal = () => {
 
   const filesNow = getFilesNow();
   const dirsNow = filesNow.filter(v => v.isDir);
-  const notDirsNow = filesNow.filter(v => !v.isDir);
 
   useEffect(() => {
     if (containerRef.current) {

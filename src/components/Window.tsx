@@ -13,37 +13,17 @@ interface WindowProps {
 }
 
 export const Window = ({ app }: WindowProps) => {
-  const { bringToFront, closeApp, minimizeApp, maximizeApp, setAppPosition, setAppSize } = useAppStore();
+  const { bringToFront, closeApp, minimizeApp, maximizeApp, setAppPosition } = useAppStore();
   const nodeRef = useRef<HTMLDivElement>(null);
   
   const initialX = Array.isArray(app.position) ? app.position[0] : app.position.x;
   const initialY = Array.isArray(app.position) ? app.position[1] : app.position.y;
   
-  const [position, setPosition] = useState({ x: initialX || 0, y: initialY || 0 }); // Using x,y from store refactor
-  // Note: apps.ts currently has position as number[] or object. I updated it to number[] in write_file, but interface says object. 
-  // Let's assume the store/utils normalized it. In utils/apps.ts I wrote: position: [number, number].
-  // So app.position[0] is x.
-  
-  // Wait, I need to check `src/utils/apps.ts`. I wrote `position: [number, number]`.
-  // So app.position is array.
-  const x = Array.isArray(app.position) ? app.position[0] : app.position.x;
-  const y = Array.isArray(app.position) ? app.position[1] : app.position.y;
   const w = Array.isArray(app.size) ? app.size[0] : app.size.w;
   const h = Array.isArray(app.size) ? app.size[1] : app.size.h;
 
-  const isActive = app.status === 2 || app.status === 1; // 1: open, 2: active (maybe) - let's simplify. 
-  // Store logic: status 1 is open. 
-  // I need to track active window (z-index). Store has bringToFront.
-  
   const handleStart = () => {
     bringToFront(app.name);
-  };
-
-  const handleDrag = (e: any, data: { x: number, y: number }) => {
-    // setPosition({ x: data.x, y: data.y });
-    // Update store on stop? Or local state?
-    // Draggable is uncontrolled by default but can be controlled.
-    // If we want persistent position we should update store on stop.
   };
 
   const handleStop = (e: any, data: { x: number, y: number }) => {
@@ -55,8 +35,8 @@ export const Window = ({ app }: WindowProps) => {
   return (
     <Draggable
       handle=".window-head"
-      defaultPosition={{ x, y }}
-      position={app.maxed ? { x: 0, y: 0 } : { x, y }}
+      defaultPosition={{ x: initialX || 0, y: initialY || 0 }}
+      position={app.maxed ? { x: 0, y: 0 } : undefined}
       onStart={handleStart}
       onStop={handleStop}
       disabled={app.maxed}
