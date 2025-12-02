@@ -17,6 +17,7 @@ const GeditPlaceholder = ({ filepath }: { filepath?: string }) => (
 );
 
 
+// Mapping app names to components
 const APP_COMPONENTS: { [key: string]: React.ComponentType<any> } = {
   'terminal': Terminal,
   'settings': Settings,
@@ -34,7 +35,7 @@ export const AppRenderer = ({ appName, params }: { appName: string; params?: any
   if (!Component) {
     return (
       <div className="flex items-center justify-center h-full text-gray-500">
-        App "{appName}" not implemented yet.
+        App &quot;{appName}&quot; not implemented yet.
       </div>
     );
   }
