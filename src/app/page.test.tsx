@@ -4,5 +4,5 @@ import Page from './page'
  
 test('Page', () => {
   render(<Page />)
-  expect(screen.getByText('To get started, edit the page.tsx file.')).toBeDefined()
+  expect(screen.getByText('User')).toBeDefined()
 })
