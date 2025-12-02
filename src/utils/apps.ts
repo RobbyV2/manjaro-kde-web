@@ -10,6 +10,7 @@ export type typeApp = {
   zindex: number; // removed Ref
   animating: boolean;
   app: string; // Changed to string identifier for now
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   params?: { [key: string]: any };
 };
 
