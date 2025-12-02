@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppStore } from '@/store/useAppStore';
+import { basePath } from '@/utils/utils';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
@@ -77,7 +78,7 @@ export const CmdMsg = () => {
     >
       {isGameOver ? (
         <div className="flex items-center justify-center h-full w-full">
-           <Image src="/images/gameover.png" alt="Game Over" width={200} height={100} className="object-contain" />
+           <Image src={`${basePath}/images/gameover.png`} alt="Game Over" width={200} height={100} className="object-contain" />
         </div>
       ) : (
         WORDS.map((word, idx) => (

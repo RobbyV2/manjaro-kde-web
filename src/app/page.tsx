@@ -5,6 +5,7 @@ import { Taskbar } from '@/components/Taskbar';
 import { LockScreen } from '@/components/LockScreen';
 import { CmdMsg } from '@/components/CmdMsg';
 import { useAppStore } from '@/store/useAppStore';
+import { basePath } from '@/utils/utils';
 import Image from 'next/image';
 
 export default function Home() {
@@ -18,7 +19,7 @@ export default function Home() {
        */}
        {(powerState === '' && (
          <Image
-          src="/images/blur-bg.jpg" // Ref uses blur-bg.jpg for lock/index
+          src={`${basePath}/images/blur-bg.jpg`}
           alt="background"
           fill
           className="object-cover -z-50"

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { basePath } from '@/utils/utils';
 
 interface IconProps {
   name: string;
@@ -10,15 +11,15 @@ interface IconProps {
 
 export const Icon = ({ name, size = 24, className, onClick, style }: IconProps) => {
   const sizePx = typeof size === 'number' ? size : parseInt(size as string) || 24;
-  
+
   return (
-    <div 
-      className={`flex items-center justify-center select-none ${className || ''}`} 
-      onClick={onClick} 
+    <div
+      className={`flex items-center justify-center select-none ${className || ''}`}
+      onClick={onClick}
       style={{ width: size, height: size, ...style }}
     >
        <Image
-         src={`/svg/${name}.svg`}
+         src={`${basePath}/svg/${name}.svg`}
          alt={name}
          width={sizePx}
          height={sizePx}

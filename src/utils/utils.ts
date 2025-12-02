@@ -1,6 +1,8 @@
 import { typeApp } from "./apps";
 import { typeFile, dolphinFiles } from "../data/filesystem";
 
+export const basePath = process.env.NODE_ENV === 'production' ? '/manjaro-kde-web' : '';
+
 export function escapeHtml(s: string): string {
   return s.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 }
