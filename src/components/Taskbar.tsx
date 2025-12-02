@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 export const Taskbar = () => {
-  const { apps, openApp, minimizeApp, bringToFront } = useAppStore();
+  const { apps, openApp, bringToFront } = useAppStore();
   const [time, setTime] = useState(dayjs());
 
   useEffect(() => {

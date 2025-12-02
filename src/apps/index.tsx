@@ -8,6 +8,8 @@ import { VSCode } from './VSCode';
 import { Music } from './Music';
 import { ImageViewer } from './ImageViewer';
 
+import { GeditPlaceholder } from './GeditPlaceholder'; // Assuming this or internal
+
 // Placeholder for Gedit if not implemented yet
 const GeditPlaceholder = ({ filepath }: { filepath?: string }) => (
     <div className="w-full h-full bg-[#262626] text-white p-4 font-mono">
@@ -17,7 +19,7 @@ const GeditPlaceholder = ({ filepath }: { filepath?: string }) => (
 );
 
 
-// Mapping app names to components
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const APP_COMPONENTS: { [key: string]: React.ComponentType<any> } = {
   'terminal': Terminal,
   'settings': Settings,
@@ -29,6 +31,7 @@ const APP_COMPONENTS: { [key: string]: React.ComponentType<any> } = {
   'chrome': () => <iframe src="https://www.google.com/webhp?igu=1" className="w-full h-full bg-white" title="Chrome" />,
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AppRenderer = ({ appName, params }: { appName: string; params?: any }) => {
   const Component = APP_COMPONENTS[appName];
 

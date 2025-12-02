@@ -34,7 +34,7 @@ export const Terminal = () => {
   const dirStr = dir.length ? dir.join("/") : "~";
 
   const getFilesNow = () => {
-    let parent = dolphinFiles as typeFile[];
+    const parent = dolphinFiles as typeFile[];
     // Traverse
     // Note: filesystem.ts export might need check.
     // Assuming dolphinFiles is array of roots.

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 
 interface ImageViewerProps {
   filepath?: string;
@@ -31,6 +30,7 @@ export const ImageViewer = ({ filepath }: ImageViewerProps) => {
   return (
     <div className="w-full h-full bg-black flex items-center justify-center overflow-hidden relative">
        {src ? (
+           // eslint-disable-next-line @next/next/no-img-element
            <img 
              src={src} 
              alt={filepath} 
