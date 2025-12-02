@@ -2,7 +2,7 @@
 
 import { useAppStore } from '@/store/useAppStore';
 import { typeApp } from '@/utils/apps';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import Draggable from 'react-draggable';
 import { Icon } from './Icon';
 
@@ -26,6 +26,7 @@ export const Window = ({ app }: WindowProps) => {
     bringToFront(app.name);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleStop = (e: any, data: { x: number, y: number }) => {
     setAppPosition(app.name, data.x, data.y);
   };

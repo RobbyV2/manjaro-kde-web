@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Icon } from '@/components/Icon';
-import Image from 'next/image';
 
 interface MusicProps {
   filepath?: string; // e.g. "Musics/The-Ludlows.mp3"
@@ -11,7 +10,6 @@ interface MusicProps {
 export const Music = ({ filepath }: MusicProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(0.8);
   const audioRef = useRef<HTMLAudioElement>(null);
   const currentFile = filepath || "";
 
@@ -26,10 +24,8 @@ export const Music = ({ filepath }: MusicProps) => {
   }, [isPlaying, currentFile]);
 
   useEffect(() => {
-      if (audioRef.current) {
-          audioRef.current.volume = volume;
-      }
-  }, [volume]);
+      // Volume logic removed for now
+  }, []);
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
