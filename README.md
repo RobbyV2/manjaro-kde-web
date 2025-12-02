@@ -20,6 +20,14 @@ A web-based simulation of the Manjaro KDE Plasma desktop environment, built with
   - **VSCode**: Embedded Github1s.
   - **Chrome**: Embedded browser placeholder.
 
+## Screenshots
+
+<div align="center">
+  <img src="public/images/wallpaper.png" alt="Desktop" width="400" />
+  <br>
+  <em>Desktop Environment</em>
+</div>
+
 ## Tech Stack
 
 - **Framework**: [Next.js](https://nextjs.org/) (App Router)

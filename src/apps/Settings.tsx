@@ -29,34 +29,37 @@ export const Settings = () => {
       {/* Body */}
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <div className="w-[30%] h-full border-r border-gray-500 overflow-y-auto">
+        <div className="w-[30%] h-full border-r border-gray-600 bg-[#2a2e32] overflow-y-auto pt-2">
           {TABS.map(tab => (
             <div
               key={tab.name}
-              className={`flex items-center p-2 border-b border-gray-500/30 cursor-pointer hover:bg-[#7dcfff33] ${activeTab === tab.name ? 'bg-[#44bbff88]' : ''}`}
+              className={`flex items-center px-4 py-2 cursor-pointer transition-colors duration-200 
+                ${activeTab === tab.name ? 'bg-[#3daee9]/30 border-l-4 border-[#3daee9]' : 'hover:bg-white/5 border-l-4 border-transparent'}`}
               onClick={() => setActiveTab(tab.name)}
             >
-              <Icon name={tab.icon} size={24} className="mr-2" />
-              <span className="text-sm">{tab.name}</span>
+              <Icon name={tab.icon} size={22} className="mr-3 opacity-80" />
+              <span className="text-sm font-medium tracking-wide">{tab.name}</span>
             </div>
           ))}
         </div>
 
         {/* Content */}
-        <div className="w-[70%] h-full p-4 overflow-y-auto bg-[#262626]">
+        <div className="w-[70%] h-full p-8 overflow-y-auto bg-[#262626]">
           {activeTab === 'Kernel' && (
-            <div className="flex flex-col items-center w-full">
-              <div className="flex flex-col items-center my-8">
-                 <Icon name="manjaro" size={112} />
-                 <div className="flex flex-col items-center mt-4">
-                    <b className="text-2xl">Manjaro Linux</b>
-                    <a href="https://manjaro.org" target="_blank" rel="noopener noreferrer" className="text-[#2980b9] text-sm mt-2 hover:underline">
+            <div className="flex flex-col items-center w-full animate-fadeIn">
+              <div className="flex flex-col items-center mb-10">
+                 <div className="p-4 bg-white/5 rounded-full mb-4 shadow-lg">
+                    <Icon name="manjaro" size={96} />
+                 </div>
+                 <div className="flex flex-col items-center">
+                    <b className="text-3xl font-light tracking-tight">Manjaro Linux</b>
+                    <a href="https://manjaro.org" target="_blank" rel="noopener noreferrer" className="text-[#3daee9] text-sm mt-1 hover:underline opacity-80 hover:opacity-100 transition-opacity">
                       https://manjaro.org/
                     </a>
                  </div>
               </div>
 
-              <div className="flex flex-col gap-2 w-[80%] max-w-md">
+              <div className="flex flex-col gap-px w-[90%] max-w-lg bg-gray-700/30 rounded-lg overflow-hidden border border-gray-600/50">
                  <InfoRow label="KDE Plasma Version:" value="5.21.4" />
                  <InfoRow label="KDE Frameworks Version:" value="5.81.0" />
                  <InfoRow label="Qt Version:" value="5.15.2" />
@@ -67,8 +70,9 @@ export const Settings = () => {
             </div>
           )}
           {activeTab !== 'Kernel' && (
-              <div className="flex items-center justify-center h-full text-gray-500">
-                  Settings for {activeTab} not implemented.
+              <div className="flex flex-col items-center justify-center h-full text-gray-500 gap-4">
+                  <Icon name="settings" size={64} className="opacity-20" />
+                  <span className="text-lg font-light">Settings for {activeTab} not implemented.</span>
               </div>
           )}
         </div>
@@ -78,8 +82,8 @@ export const Settings = () => {
 };
 
 const InfoRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex text-sm">
-    <span className="w-1/2 text-right text-gray-400 mr-4">{label}</span>
-    <span className="w-1/2 text-left">{value}</span>
+  <div className="flex items-center justify-between p-3 bg-[#262626]/50 hover:bg-[#262626] transition-colors border-b border-gray-700/50 last:border-none">
+    <span className="text-gray-400 text-sm font-medium">{label}</span>
+    <span className="text-gray-200 text-sm">{value}</span>
   </div>
 );
