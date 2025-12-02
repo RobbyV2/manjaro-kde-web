@@ -7,7 +7,6 @@ import { Dolphin } from './Dolphin';
 import { VSCode } from './VSCode';
 import { Music } from './Music';
 import { ImageViewer } from './ImageViewer';
-import { Gedit } from './Gedit';
 
 // Placeholder for Gedit if not implemented yet
 const GeditPlaceholder = ({ filepath }: { filepath?: string }) => (

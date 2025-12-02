@@ -15,7 +15,11 @@ interface WindowProps {
 export const Window = ({ app }: WindowProps) => {
   const { bringToFront, closeApp, minimizeApp, maximizeApp, setAppPosition, setAppSize } = useAppStore();
   const nodeRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: app.position.x || 0, y: app.position.y || 0 }); // Using x,y from store refactor
+  
+  const initialX = Array.isArray(app.position) ? app.position[0] : app.position.x;
+  const initialY = Array.isArray(app.position) ? app.position[1] : app.position.y;
+  
+  const [position, setPosition] = useState({ x: initialX || 0, y: initialY || 0 }); // Using x,y from store refactor
   // Note: apps.ts currently has position as number[] or object. I updated it to number[] in write_file, but interface says object. 
   // Let's assume the store/utils normalized it. In utils/apps.ts I wrote: position: [number, number].
   // So app.position[0] is x.
