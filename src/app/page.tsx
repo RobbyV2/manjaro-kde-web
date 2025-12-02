@@ -16,7 +16,7 @@ export default function Home() {
            Ref index.vue has wallpaper img. 
            Let's put wallpaper here as background for everything except CmdMsg.
        */}
-       {(powerState === '' || (powerState === '' && isLocked)) && (
+       {(powerState === '' && (
          <Image
           src="/images/blur-bg.jpg" // Ref uses blur-bg.jpg for lock/index
           alt="background"
@@ -24,7 +24,7 @@ export default function Home() {
           className="object-cover -z-50"
           priority
          />
-       )}
+       ))}
        
        <CmdMsg />
        
