@@ -2,6 +2,10 @@ import { create } from 'zustand';
 import { typeApp, apps as initialApps } from '../utils/apps';
 
 interface AppState {
+  isLocked: boolean;
+  powerState: '' | 'shutdown' | 'reboot';
+  setLocked: (locked: boolean) => void;
+  setPowerState: (state: '' | 'shutdown' | 'reboot') => void;
   apps: typeApp[];
   openApp: (name: string, params?: any) => void;
   closeApp: (name: string) => void;
@@ -14,6 +18,10 @@ interface AppState {
 }
 
 export const useAppStore = create<AppState>((set) => ({
+  isLocked: true,
+  powerState: '',
+  setLocked: (locked) => set({ isLocked: locked }),
+  setPowerState: (state) => set({ powerState: state }),
   apps: initialApps,
   openApp: (name, params) => set((state) => {
     const appIndex = state.apps.findIndex((app) => app.name === name);
