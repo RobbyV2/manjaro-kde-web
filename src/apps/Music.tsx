@@ -13,13 +13,7 @@ export const Music = ({ filepath }: MusicProps) => {
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(0.8);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [currentFile, setCurrentFile] = useState(filepath || "");
-
-  useEffect(() => {
-    if (filepath) {
-      setCurrentFile(filepath);
-    }
-  }, [filepath]);
+  const currentFile = filepath || "";
 
   useEffect(() => {
     if (audioRef.current) {
